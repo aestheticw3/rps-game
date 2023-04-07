@@ -1,0 +1,30 @@
+.Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 15px 18px;
+  background-color: black;
+}
+
+.title {
+  font-size: 26px;
+  color: whitesmoke;
+  text-decoration: none;
+}
+
+.connectWalletButton {
+  font-size: 16px;
+  padding: 5px 15px;
+  margin-bottom: -5px;
+  cursor: pointer;
+  color: white;
+  border: 1px solid whitesmoke;
+  background: none;
+  border-radius: 10px;
+}
+
+.connectWalletButton:hover {
+  transition: all 0.5s;
+  background-color: whitesmoke;
+  color: black;
+}
