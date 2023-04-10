@@ -1,6 +1,6 @@
 import styles from "./App.module.css";
-import Header from "./Header/Header";
-import Main from "./Main/Main";
+import Header from "./components/Header/Header";
+import Main from "./components/Main/Main";
 function App() {
   return (
     <div className="App" style={styles.title}>
