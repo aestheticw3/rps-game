@@ -1,0 +1,7 @@
+.main {
+  display: flex;
+  justify-content: center;
+  padding: 2%;
+  height: 94vh;
+  color: whitesmoke;
+}

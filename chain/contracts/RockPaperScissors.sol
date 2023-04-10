@@ -3,24 +3,16 @@ pragma solidity ^0.8.19;
 
 contract RockPaperScissors {
     address public owner;
-    address[2][] public waitingRoom;
-    Game[] public games;
+    mapping(uint => Room) public rooms;
+    uint public latestRoomID;
 
-    //EVENTS
-    event newGameStarted(
-        address indexed playerOne,
-        address indexed playerTwo,
-        uint indexed time
-    );
-    ////////
-
-    struct Game {
-        uint id;
-        address payable playerOne;
-        address payable playerTwo;
+    struct Room {
+        mapping(uint => Round) rounds;
+        uint roundNum;
+        address playerOne;
+        address playerTwo;
         Status status;
-        Round[3] rounds;
-        uint time;
+        uint creationTime;
     }
 
     struct Round {
@@ -28,7 +20,7 @@ contract RockPaperScissors {
         Shape playerTwoShape;
         address winner;
         Status status;
-        uint time;
+        uint creationTime;
     }
 
     enum Shape {
@@ -50,50 +42,43 @@ contract RockPaperScissors {
         owner = msg.sender;
     }
 
-    function createNewRoom() external payable {
-        waitingRoom.push([msg.sender, address(0x0)]);
+    function createNewRoom() external {
+        rooms[latestRoomID] = Room({
+            playerOne: msg.sender,
+            status: Status.Waiting,
+            creationTime: block.timestamp
+        });
+        latestRoomID++;
     }
 
-    function checkAvailableRoom() external view returns (string memory, uint) {
+    function checkAvailableRoom() public view returns (string memory) {
         require(
-            waitingRoom[0][1] == address(0x0),
-            "No available rooms. But you can create a new one."
+            rooms[latestRoomID].status = Status.Waiting,
+            "There are no available rooms."
         );
-        return ("Available rooms", waitingRoom.length);
+        return ("There is an available room");
     }
 
-    function joinRoom() public payable {
-        require(
-            waitingRoom[0][1] == address(0x0),
-            "No available rooms. But you can create a new one."
-        );
+    function joinRoom() public {
+        checkAvailableRoom();
 
-        address _playerOne = waitingRoom[0][0];
-        delete waitingRoom[0];
+        Room storage currentRoom = rooms[latestRoomID];
+        currentRoom.playerTwo = msg.sender;
 
-        Game memory newGame = Game(
-            games.length,
-            payable(_playerOne),
-            payable(msg.sender),
-            Status.Started,
-            [
-                Round(
-                    Shape.None,
-                    Shape.None,
-                    address(0x0),
-                    Status.Started,
-                    block.timestamp
-                ),
-                Round(Shape.None, Shape.None, address(0x0), Status.None, 0),
-                Round(Shape.None, Shape.None, address(0x0), Status.None, 0)
-            ],
-            block.timestamp
-        );
-
-        games.push(newGame);
-
-        emit newGameStarted(_playerOne, msg.sender, block.timestamp);
+        emit joinedRoom(msg.sender, latestRoomID, block.timestamp);
     }
+
+    function startGame(uint _roomID) external payable onlyRoomPlayer {
+        startRound(_roomID);
+        rooms[_roomID].roundNum++;
+    }
+
+    function startRound(uint _roomID) public onlyRoomPlayer {
+        Room storage currentRoom = rooms[_roomID];
+        currentRoom.roundNum++;
+    }
+
+    //////////////////////////////////////////////////////////////////
 
     function chooseShape(uint _gameId, Shape _shape) external {
         Game storage currentGame = games[_gameId];
@@ -172,4 +157,21 @@ contract RockPaperScissors {
     receive() external payable {}
 
     fallback() external payable {}
+
+    //EVENTS and MODIFIERS
+    event joinedRoom(
+        address indexed player,
+        uint indexed latestRoomID,
+        uint indexed joinTime
+    );
+
+    modifier onlyRoomPlayer() {
+        require(
+            msg.sender == rooms[_roomID].playerOne ||
+                msg.sender == rooms[_roomID].playerTwo,
+            "Wrong Room ID"
+        );
+        _;
+    }
+    ////////
 }

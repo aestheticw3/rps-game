@@ -16,7 +16,7 @@ const Header = () => {
   return (
     <div className={styles.Header}>
       <a href="index.html" className={styles.title}>
-        Rock Paper Scissors
+        ROCK! PAPER! SCISSORS!
       </a>
       <button
         className={styles.connectWalletButton}
