@@ -43,17 +43,16 @@ contract RockPaperScissors {
     }
 
     function createNewRoom() external {
-        rooms[latestRoomID] = Room({
-            playerOne: msg.sender,
-            status: Status.Waiting,
-            creationTime: block.timestamp
-        });
+        Room storage newRoom = rooms[latestRoomID];
+        newRoom.playerOne = msg.sender;
+        newRoom.status = Status.Waiting;
+        newRoom.creationTime = block.timestamp;
         latestRoomID++;
     }
 
     function checkAvailableRoom() public view returns (string memory) {
         require(
-            rooms[latestRoomID].status = Status.Waiting,
+            rooms[latestRoomID].status == Status.Waiting,
             "There are no available rooms."
         );
         return ("There is an available room");
@@ -68,91 +67,91 @@ contract RockPaperScissors {
         emit joinedRoom(msg.sender, latestRoomID, block.timestamp);
     }
 
-    function startGame(uint _roomID) external payable onlyRoomPlayer {
+    function startGame(uint _roomID) external payable onlyRoomPlayer(_roomID) {
         startRound(_roomID);
         rooms[_roomID].roundNum++;
     }
 
-    function startRound(uint _roomID) public onlyRoomPlayer {
+    function startRound(uint _roomID) public onlyRoomPlayer(_roomID) {
         Room storage currentRoom = rooms[_roomID];
         currentRoom.roundNum++;
     }
 
     //////////////////////////////////////////////////////////////////
 
-    function chooseShape(uint _gameId, Shape _shape) external {
-        Game storage currentGame = games[_gameId];
-        require(
-            currentGame.playerOne == msg.sender ||
-                currentGame.playerTwo == msg.sender,
-            "Wrong Game ID"
-        );
+    // function chooseShape(uint _gameId, Shape _shape) external {
+    //     Game storage currentGame = games[_gameId];
+    //     require(
+    //         currentGame.playerOne == msg.sender ||
+    //             currentGame.playerTwo == msg.sender,
+    //         "Wrong Game ID"
+    //     );
 
-        for (uint i = 0; i < 3; i++) {
-            Round storage currentRound = currentGame.rounds[i];
-            currentRound.status = Status.Started;
-            if (
-                currentGame.playerOne == msg.sender &&
-                currentRound.playerOneShape == Shape.None
-            ) {
-                currentRound.playerOneShape = _shape;
-                break;
-            }
+    //     for (uint i = 0; i < 3; i++) {
+    //         Round storage currentRound = currentGame.rounds[i];
+    //         currentRound.status = Status.Started;
+    //         if (
+    //             currentGame.playerOne == msg.sender &&
+    //             currentRound.playerOneShape == Shape.None
+    //         ) {
+    //             currentRound.playerOneShape = _shape;
+    //             break;
+    //         }
 
-            if (currentRound.playerTwoShape == Shape.None) {
-                currentRound.playerTwoShape = _shape;
-                break;
-            }
-            if (
-                currentRound.playerOneShape != Shape.None &&
-                currentRound.playerTwoShape != Shape.None
-            ) {
-                endRound(
-                    currentRound,
-                    currentGame.playerOne,
-                    currentGame.playerTwo
-                );
-                currentRound.status = Status.Ended;
-            }
-        }
-    }
+    //         if (currentRound.playerTwoShape == Shape.None) {
+    //             currentRound.playerTwoShape = _shape;
+    //             break;
+    //         }
+    //         if (
+    //             currentRound.playerOneShape != Shape.None &&
+    //             currentRound.playerTwoShape != Shape.None
+    //         ) {
+    //             endRound(
+    //                 currentRound,
+    //                 currentGame.playerOne,
+    //                 currentGame.playerTwo
+    //             );
+    //             currentRound.status = Status.Ended;
+    //         }
+    //     }
+    // }
 
-    function endRound(
-        Round storage _currentRound,
-        address _playerOne,
-        address _playerTwo
-    ) private {
-        if (_currentRound.playerOneShape == Shape.Rock) {
-            if (_currentRound.playerTwoShape == Shape.Rock)
-                _currentRound.status = Status.Draw;
-            _currentRound.playerOneShape = Shape.None;
-            _currentRound.playerTwoShape = Shape.None;
-            if (_currentRound.playerTwoShape == Shape.Paper)
-                _currentRound.winner = _playerTwo;
-            if (_currentRound.playerTwoShape == Shape.Scissors)
-                _currentRound.winner = _playerOne;
-        }
-        if (_currentRound.playerOneShape == Shape.Paper) {
-            if (_currentRound.playerTwoShape == Shape.Rock)
-                _currentRound.winner = _playerOne;
-            if (_currentRound.playerTwoShape == Shape.Paper)
-                _currentRound.status = Status.Draw;
-            _currentRound.playerOneShape = Shape.None;
-            _currentRound.playerTwoShape = Shape.None;
-            if (_currentRound.playerTwoShape == Shape.Scissors)
-                _currentRound.winner = _playerTwo;
-        }
-        if (_currentRound.playerOneShape == Shape.Scissors) {
-            if (_currentRound.playerTwoShape == Shape.Rock)
-                _currentRound.winner = _playerTwo;
-            if (_currentRound.playerTwoShape == Shape.Paper)
-                _currentRound.winner = _playerOne;
-            if (_currentRound.playerTwoShape == Shape.Scissors)
-                _currentRound.status = Status.Draw;
-            _currentRound.playerOneShape = Shape.None;
-            _currentRound.playerTwoShape = Shape.None;
-        }
-    }
+    // function endRound(
+    //     Round storage _currentRound,
+    //     address _playerOne,
+    //     address _playerTwo
+    // ) private {
+    //     if (_currentRound.playerOneShape == Shape.Rock) {
+    //         if (_currentRound.playerTwoShape == Shape.Rock)
+    //             _currentRound.status = Status.Draw;
+    //         _currentRound.playerOneShape = Shape.None;
+    //         _currentRound.playerTwoShape = Shape.None;
+    //         if (_currentRound.playerTwoShape == Shape.Paper)
+    //             _currentRound.winner = _playerTwo;
+    //         if (_currentRound.playerTwoShape == Shape.Scissors)
+    //             _currentRound.winner = _playerOne;
+    //     }
+    //     if (_currentRound.playerOneShape == Shape.Paper) {
+    //         if (_currentRound.playerTwoShape == Shape.Rock)
+    //             _currentRound.winner = _playerOne;
+    //         if (_currentRound.playerTwoShape == Shape.Paper)
+    //             _currentRound.status = Status.Draw;
+    //         _currentRound.playerOneShape = Shape.None;
+    //         _currentRound.playerTwoShape = Shape.None;
+    //         if (_currentRound.playerTwoShape == Shape.Scissors)
+    //             _currentRound.winner = _playerTwo;
+    //     }
+    //     if (_currentRound.playerOneShape == Shape.Scissors) {
+    //         if (_currentRound.playerTwoShape == Shape.Rock)
+    //             _currentRound.winner = _playerTwo;
+    //         if (_currentRound.playerTwoShape == Shape.Paper)
+    //             _currentRound.winner = _playerOne;
+    //         if (_currentRound.playerTwoShape == Shape.Scissors)
+    //             _currentRound.status = Status.Draw;
+    //         _currentRound.playerOneShape = Shape.None;
+    //         _currentRound.playerTwoShape = Shape.None;
+    //     }
+    // }
 
     receive() external payable {}
 
@@ -165,7 +164,7 @@ contract RockPaperScissors {
         uint indexed joinTime
     );
 
-    modifier onlyRoomPlayer() {
+    modifier onlyRoomPlayer(uint _roomID) {
         require(
             msg.sender == rooms[_roomID].playerOne ||
                 msg.sender == rooms[_roomID].playerTwo,
