@@ -1,0 +1,10 @@
+.title {
+	margin-top: 0;
+	margin-bottom: 90px;
+}
+
+.shapeChoice {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 150px;
+}

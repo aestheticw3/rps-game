@@ -1,14 +1,7 @@
 {
-  "name": "rps-chain",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
+  "name": "hardhat-project",
   "devDependencies": {
-    "vite": "^4.2.0"
+    "@nomicfoundation/hardhat-toolbox": "^2.0.2",
+    "hardhat": "^2.13.1"
   }
 }

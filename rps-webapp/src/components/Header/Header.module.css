@@ -1,31 +1,25 @@
-.Header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #11141b;
-  padding: 10px 2%;
-  border-bottom: 1px solid #313743;
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #202020;
+	padding: 10px 2.5%;
+	border-bottom: 1px solid rgb(52, 52, 52);
 }
 
-.title {
-  font-size: 22px;
-  font-weight: 900;
-  color: whitesmoke;
-  text-decoration: none;
+.logo {
+	font-size: 22px;
+	font-weight: 900;
+	text-decoration: none;
+	text-transform: uppercase;
 }
 
 .connectWalletButton {
-  font-size: 14px;
-  padding: 4px 15px;
-  cursor: pointer;
-  color: white;
-  border: 1px solid whitesmoke;
-  background: none;
-  border-radius: 10px;
-}
-
-.connectWalletButton:hover {
-  transition: all 0.8s;
-  background-color: whitesmoke;
-  color: black;
+	font-size: 14px;
+	padding: 4px 15px;
+	border: 1px solid whitesmoke;
+	color: #fff;
+	background-color: #202020;
+	border-radius: 10px;
+	font-weight: 500;
 }
