@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	* {
+		font-family: "Montserrat", sans-serif;
+		@apply m-0 p-0 box-border text-white text-base;
+	}
+
+	body {
+		@apply bg-cstm-black;
+	}
+
+	h1 {
+		@apply text-3xl font-black my-32 mx-auto uppercase;
+	}
+
+	button {
+		@apply text-xl py-3 px-6 cursor-pointer border border-white bg-white text-black rounded-full uppercase font-bold;
+	}
+}

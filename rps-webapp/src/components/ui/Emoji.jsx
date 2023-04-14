@@ -1,4 +1,4 @@
 const Emoji = props => {
-	return <div style={{ fontSize: "70px" }}>{props.emoji}</div>
+	return <div className="text-7xl">{props.emoji}</div>
 }
 export default Emoji

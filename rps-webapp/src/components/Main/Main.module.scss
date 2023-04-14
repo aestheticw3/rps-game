@@ -1,0 +1,7 @@
+.main {
+	@apply py-8;
+}
+
+.container {
+	@apply flex justify-center items-center text-center m-auto bg-cstm-light-black rounded-2xl p-10 w-11/12;
+}

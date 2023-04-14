@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom"
-import styles from "./Main.module.css"
 import SearchRoom from "../routes/SearchRoom/SearchRoom"
 import ShapeChoice from "../routes/ShapeChoice/ShapeChoice"
+import styles from "./Main.module.scss"
 
 const Main = () => {
 	return (

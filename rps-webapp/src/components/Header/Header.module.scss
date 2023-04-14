@@ -1,0 +1,19 @@
+.header {
+	@apply flex justify-between items-center bg-cstm-light-black py-2.5 border-cstm-gray border-b;
+}
+
+.container {
+	@apply flex justify-between items-center w-11/12 mx-auto;
+}
+
+.logo {
+	@apply text-xl font-black decoration-0 uppercase;
+}
+
+.connectWalletButton {
+	@apply text-xs py-1 px-3 border-white text-white bg-cstm-light-black rounded-xl font-medium;
+}
+
+.disconnectWalletButton:hover {
+	@apply border-red-400 transition-all ease-out delay-300;
+}

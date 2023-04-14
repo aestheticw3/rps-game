@@ -1,5 +1,5 @@
 import Emoji from "../../ui/Emoji"
-import styles from "./SearchRoom.module.css"
+import styles from "./SearchRoom.module.scss"
 
 const SearchRoom = () => {
 	return (

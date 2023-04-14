@@ -1,5 +1,5 @@
 import Shape from "./Shape"
-import styles from "./ShapeChoice.module.css"
+import styles from "./ShapeChoice.module.scss"
 const ShapeChoice = () => {
 	return (
 		<div className={styles.shapeChoice}>

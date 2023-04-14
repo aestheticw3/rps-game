@@ -1,0 +1,11 @@
+.shape {
+	@apply text-7xl border border-gray-700 rounded-full cursor-pointer p-5 mb-10;
+}
+
+.shape:last-child {
+	@apply mb-5;
+}
+
+.shape:hover {
+	@apply animate-spin;
+}

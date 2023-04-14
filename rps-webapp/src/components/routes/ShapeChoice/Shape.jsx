@@ -1,5 +1,5 @@
-import styles from './Shape.module.css'
+import styles from "./Shape.module.scss"
 const Shape = props => {
-	return <button className={styles.shape}>{props.shape}</button>
+	return <div className={styles.shape}>{props.shape}</div>
 }
 export default Shape
